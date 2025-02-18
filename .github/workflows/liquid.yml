@@ -16,6 +16,7 @@ jobs:
           - { ruby: 3.3, allowed-failure: false }
           - { ruby: 3.4, allowed-failure: false } # latest
           - { ruby: ruby-head, allowed-failure: false }
+          - { ruby: truffleruby-head, allowed-failure: true }
     name: Test Ruby ${{ matrix.entry.ruby }}
     steps:
       - uses: actions/checkout@v3

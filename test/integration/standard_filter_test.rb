@@ -127,10 +127,13 @@ class StandardFiltersTest < Minitest::Test
     assert_equal(%w(r), @filters.slice(input, -1))
     assert_equal(%w(), @filters.slice(input, 100, 10))
     assert_equal(%w(), @filters.slice(input, -100, 10))
-    assert_equal([], @filters.slice(input, 0, -(1 << 64)))
-    assert_equal(input, @filters.slice(input, 0, 1 << 63))
-    assert_equal([], @filters.slice(input, 1 << 63, 6))
-    assert_equal([], @filters.slice(input, -(1 << 63), 6))
+
+    unless RUBY_ENGINE == "truffleruby"
+      assert_equal([], @filters.slice(input, 0, -(1 << 64)))
+      assert_equal(input, @filters.slice(input, 0, 1 << 63))
+      assert_equal([], @filters.slice(input, 1 << 63, 6))
+      assert_equal([], @filters.slice(input, -(1 << 63), 6))
+    end
   end
 
   def test_find_on_empty_array
